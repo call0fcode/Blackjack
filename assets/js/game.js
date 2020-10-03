@@ -6,8 +6,9 @@ let playerScore   = 0,
     computerScore = 0
 
 // HTML References
-const btnTakeCard  = document.querySelector('#btnTakeCard');
-const scores = document.querySelectorAll('small');
+const btnTakeCard     = document.querySelector('#btnTakeCard');
+const scores          = document.querySelectorAll('small');
+const playerCardsDiv  = document.querySelector('#player-cards');
 
 // Function that creates a new shuffled deck.
 const createDeck = () => {
@@ -58,7 +59,23 @@ createDeck();
 // Eventos
 btnTakeCard.addEventListener('click', () => {
   
+  // Take card from deck.
   const card = takeCard();
   playerScore += cardValue( card );
+  // Display score on HTML.
   scores[0].innerText = playerScore;
+
+  // Create card and append it to HTML.
+  const cardImg = document.createElement('img');
+  cardImg.src = `./assets/cards/${card}.png`;
+  cardImg.classList.add('blackjack-card');
+  playerCardsDiv.append( cardImg );
+
+  // Check if player has won.
+  if ( playerScore > 21 ) {
+    btnTakeCard.disabled = true;
+  } else if ( playerScore === 21 ) {
+    console.log('21, you won!');
+  }
+
 });
