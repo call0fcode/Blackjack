@@ -6,9 +6,11 @@ let playerScore   = 0,
     computerScore = 0
 
 // HTML References
-const btnTakeCard     = document.querySelector('#btnTakeCard');
-const scores          = document.querySelectorAll('small');
-const playerCardsDiv  = document.querySelector('#player-cards');
+const btnTakeCard      = document.querySelector('#btnTakeCard');
+const btnStopPlaying   = document.querySelector('#btnStopPlaying');
+const scores           = document.querySelectorAll('small');
+const playerCardsDiv   = document.querySelector('#player-cards');
+const computerCardsDiv = document.querySelector('#computer-cards');
 
 // Function that creates a new shuffled deck.
 const createDeck = () => {
@@ -52,8 +54,32 @@ const cardValue = ( card ) => {
          : parseInt( value );
 }
 
+// Computer's turn
+const computersTurn = ( minimumPoints ) => {
 
+  do {
+    // Take card from deck.
+    const card = takeCard();
+    computerScore += cardValue( card );
+    // Display score on HTML.
+    scores[1].innerText = computerScore;
+  
+    // Create card and append it to HTML.
+    const cardImg = document.createElement('img');
+    cardImg.src = `./assets/cards/${card}.png`;
+    cardImg.classList.add('blackjack-card');
+    computerCardsDiv.append( cardImg );
 
+    if ( minimumPoints > 21 ) { break; }
+
+  } while ( (computerScore < minimumPoints) && (minimumPoints <= 21) );
+
+  ( computerScore === playerScore ) ? alert('Tie!') :
+  ( playerScore > 21 ) ? alert('Computer wins!') : 
+  ( computerScore > playerScore && computerScore <= 21) ? alert('Computer wins!') :
+  alert('You won!');
+}
+ 
 createDeck();
 
 // Eventos
@@ -73,9 +99,18 @@ btnTakeCard.addEventListener('click', () => {
 
   // Check if player has won.
   if ( playerScore > 21 ) {
-    btnTakeCard.disabled = true;
+    btnTakeCard.disabled    = true;
+    btnStopPlaying.disabled = true;
+    computersTurn( playerScore );
   } else if ( playerScore === 21 ) {
-    console.log('21, you won!');
+    computersTurn( playerScore );
+    btnStopPlaying.disabled = true;
   }
+});
 
+btnStopPlaying.addEventListener('click', () => {
+
+  btnTakeCard.disabled    = true;
+  btnStopPlaying.disabled = true;
+  computersTurn( playerScore );
 });
