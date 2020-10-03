@@ -2,6 +2,7 @@ let deck           = [];
 const suits        = ['C','D','H','S'];
 const specialCards = ['A','J','Q','K'];
 
+// Function that creates a new shuffled deck.
 const createDeck = () => {
 
   for ( let i = 2; i <= 10; i++ ) {
@@ -19,7 +20,15 @@ const createDeck = () => {
   deck = _.shuffle( deck );
 
   return deck;
-
 }
 
-createDeck();
+// Function to take a card from the deck.
+const takeCard = () => {
+
+  if ( deck.length === 0 ) {
+    throw 'There are no cards on the deck';
+  }
+
+  const card = deck.pop();
+  return card;
+}
