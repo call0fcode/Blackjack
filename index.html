@@ -5,12 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blackjack</title>
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/css/styles.css">
 
 </head>
 <body>
 
+  <header class="title">Blackjack</header>
 
+  <div class="row w-100 mt-2">
+    <div class="col text-center">
+      <button class="btn btn-danger">New Game</button>
+      <button class="btn btn-primary">Give me a card!</button>
+      <button class="btn btn-primary">Stop playing</button>
+    </div>
+  </div>
+
+  <div class="row container">
+    <div class="col">
+
+      <h1>Player - <small>0</small></h1>
+      <div id="player-cards" class="cards-container">
+        <img class="blackjack-card" src="./assets/cards/10C.png">
+        <img class="blackjack-card" src="./assets/cards/10C.png">
+        <img class="blackjack-card" src="./assets/cards/10C.png">
+        <img class="blackjack-card" src="./assets/cards/10C.png">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row container mt-2">
+    <div class="col">
+
+      <h1>Computer - <small>0</small></h1>
+      <div id="computer-cards" class="cards-container">
+        <img class="blackjack-card" src="./assets/cards/5H.png">
+        <img class="blackjack-card" src="./assets/cards/5H.png">
+        <img class="blackjack-card" src="./assets/cards/5H.png">
+        <img class="blackjack-card" src="./assets/cards/5H.png">
+      </div>
+
+    </div>
+  </div>
 
   <script src="./assets/js/game.js"></script>
 
