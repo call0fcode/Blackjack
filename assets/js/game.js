@@ -2,6 +2,13 @@ let deck           = [];
 const suits        = ['C','D','H','S'];
 const specialCards = ['A','J','Q','K'];
 
+let playerScore   = 0,
+    computerScore = 0
+
+// HTML References
+const btnTakeCard  = document.querySelector('#btnTakeCard');
+const scores = document.querySelectorAll('small');
+
 // Function that creates a new shuffled deck.
 const createDeck = () => {
 
@@ -32,3 +39,26 @@ const takeCard = () => {
   const card = deck.pop();
   return card;
 }
+
+
+// Function checking the card's value
+const cardValue = ( card ) => {
+
+  const value  = card.substring(0, card.length - 1);
+
+  return ( isNaN( value )) ?
+         ( value === 'A' ) ? 11 : 10
+         : parseInt( value );
+}
+
+
+
+createDeck();
+
+// Eventos
+btnTakeCard.addEventListener('click', () => {
+  
+  const card = takeCard();
+  playerScore += cardValue( card );
+  scores[0].innerText = playerScore;
+});
