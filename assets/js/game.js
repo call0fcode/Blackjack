@@ -55,13 +55,11 @@ const game = (() => {
   // IIFE that preloads all images in order them to be cached.
   (() => {
 
-    
     cards.forEach( ( card ) => {
       const img = new Image();
       img.src = `./assets/cards/${card}.png`;
-      img.onload = () => console.log(`${card} loaded`);
+      // img.onload = () => console.log(`${card} loaded`);
     });
-
   })();
 
   // Function that initializes the game.
