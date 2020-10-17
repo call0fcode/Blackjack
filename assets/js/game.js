@@ -1,28 +1,74 @@
 // Module pattern
 const game = (() => {
+  'use strict';
 
-  "use strict";
+  /*
+   * VARIABLES
+   *************/
 
-  let deck = [];
-  const suits        = ["C", "D", "H", "S"],
-        specialCards = ["A", "J", "Q", "K"];
+  let deck    = [];
+
+  // Creates an array with all cards of a deck (52).
+  const cards = (() => {
+    
+    let cards          = [];
+    const suits        = ["C", "D", "H", "S"],
+          specialCards = ["A", "J", "Q", "K"];
+
+    for (let i = 2; i <= 10; i++) {
+      for (let suit of suits) {
+        cards.push(i + suit);
+      }
+    }
+
+    for (let suit of suits) {
+      for (let specialCard of specialCards) {
+        cards.push(specialCard + suit);
+      }
+    }
+
+    return cards;
+  })();
 
   let playersScores = [];
 
-  // HTML References
+
+  /*
+   * HTML REFERENCES
+   *******************/
+
   // Buttons
-  const btnTakeCard    = document.querySelector("#btnTakeCard"),
-        btnStopPlaying = document.querySelector("#btnStopPlaying"),
-        btnNewGame     = document.querySelector("#btnNewGame");
+  const btnNewGame     = document.querySelector("#btnNewGame"),
+        btnTakeCard    = document.querySelector("#btnTakeCard"),
+        btnStopPlaying = document.querySelector("#btnStopPlaying");
 
   // Scores and cards containers
   const scores             = document.querySelectorAll("small"),
         playersCardsDivs   = document.querySelectorAll(".cards-container");
 
+
+
+  /*
+   * FUNCTIONS
+   *************/
+
+  // IIFE that preloads all images in order them to be cached.
+  (() => {
+
+    
+    cards.forEach( ( card ) => {
+      const img = new Image();
+      img.src = `./assets/cards/${card}.png`;
+      img.onload = () => console.log(`${card} loaded`);
+    });
+
+  })();
+
   // Function that initializes the game.
   const startGame = ( players = 2 ) => {
     
-    deck = createDeck();
+    deck = shuffleDeck( cards );
+    console.log('Mazo barajado: ', deck);
     
     playersScores = [];
     for (let i = 0; i < players; i++) {
@@ -35,24 +81,10 @@ const game = (() => {
     btnStopPlaying.disabled = false;
   };
 
-  // Function that creates a new shuffled deck.
-  const createDeck = () => {
-    
-    deck = [];
+  // Function that shuffles all cards, the whole deck.
+  const shuffleDeck = ( cards ) => {
 
-    for (let i = 2; i <= 10; i++) {
-      for (let suit of suits) {
-        deck.push(i + suit);
-      }
-    }
-
-    for (let suit of suits) {
-      for (let specialCard of specialCards) {
-        deck.push(specialCard + suit);
-      }
-    }
-
-    return _.shuffle(deck);
+    return _.shuffle( cards );
   };
 
   // Function to take a card from the deck.
@@ -132,7 +164,12 @@ const game = (() => {
     whoWins();
   };
 
-  // Eventos
+
+
+  /*
+   * EVENTS
+   **********/
+
   btnTakeCard.addEventListener("click", () => {
 
     // Take card from deck.
@@ -168,8 +205,8 @@ const game = (() => {
 
   });
 
-  // The startGame funtion is now public as the method "newGame" of the game
-  // function (which is automatically called whit the module pattern).
+  // The "startGame" function is public and can be called as "newGame", which is
+  // a method of the "game" function (automatically called with module pattern).
   return {
     newGame: startGame,
   }
