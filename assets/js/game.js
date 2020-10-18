@@ -30,7 +30,8 @@ const game = (() => {
     return cards;
   })();
 
-  let playersScores = [];
+  const numOfPlayers = 2;
+  let playersScores  = new Array( numOfPlayers );
 
 
   /*
@@ -68,9 +69,9 @@ const game = (() => {
     deck = shuffleDeck( cards );
     console.log('Mazo barajado: ', deck);
     
-    playersScores = [];
-    for (let i = 0; i < players; i++) {
-      playersScores.push(0);
+    // Reset scores to zero for each player (internal scores and HTML).
+    for ( let i = 0; i < numOfPlayers; i++ ) {
+      playersScores[i] = 0;
       scores[i].innerText = 0;
       playersCardsDivs[i].innerHTML = '';
     }
@@ -177,8 +178,8 @@ const game = (() => {
     // Display the card for the player on the board.
     displayCard( card, 0 );
 
-    // Check if player has won.
-    if (playerScore > 21) {
+    // Every time the player draws a card, check for computer's turn to start.
+    if ( playerScore >= 21 ) {
       btnTakeCard.disabled = true;
       btnStopPlaying.disabled = true;
       computersTurn(playerScore);
