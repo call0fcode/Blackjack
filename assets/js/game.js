@@ -132,10 +132,12 @@ const game = (() => {
   };
 
   // Computer's turn
-  const computersTurn = ( minimumPoints ) => {
+  const computersTurn = ( minPointsToAchieve ) => {
 
     let computerScore = 0;
 
+    // Computer draws a new card while its points are less than the player ones
+    // and less than 21.
     do {
 
       // Draw card from deck.
@@ -145,7 +147,7 @@ const game = (() => {
       // Display the card for the computer on the board.
       displayCard( card, playersCardsDivs.length - 1 );
 
-    } while (computerScore < minimumPoints && minimumPoints <= 21);
+    } while ( computerScore < minPointsToAchieve && computerScore < 21 );
 
     whoWins();
   };
