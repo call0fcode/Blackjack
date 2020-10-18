@@ -41,7 +41,7 @@ const game = (() => {
 
   // Buttons
   const btnNewGame     = document.querySelector( '#btnNewGame' ),
-        btnTakeCard    = document.querySelector( '#btnTakeCard' ),
+        btndrawCard    = document.querySelector( '#btndrawCard' ),
         btnStopPlaying = document.querySelector( '#btnStopPlaying' );
 
   // Scores and cards containers
@@ -77,7 +77,7 @@ const game = (() => {
     }
 
     // Enable game buttons.
-    btnTakeCard.disabled    = false;
+    btndrawCard.disabled    = false;
     btnStopPlaying.disabled = false;
   };
 
@@ -87,8 +87,8 @@ const game = (() => {
     return _.shuffle( cards );
   };
 
-  // Function to take a card from the deck.
-  const takeCard = () => {
+  // Function to draw a card from the deck.
+  const drawCard = () => {
 
     if ( deck.length === 0 ) {
       throw 'There are no cards on the deck';
@@ -138,8 +138,8 @@ const game = (() => {
 
     do {
 
-      // Take card from deck.
-      const card = takeCard();
+      // Draw card from deck.
+      const card = drawCard();
       // Sum points to computer's score and display them on scoreboard.
       computerScore += accumulatePoints( card, playersScores.length - 1);
       // Display the card for the computer on the board.
@@ -172,10 +172,10 @@ const game = (() => {
    * EVENTS
    **********/
 
-  btnTakeCard.addEventListener( "click", () => {
+  btndrawCard.addEventListener( "click", () => {
 
-    // Take card from deck.
-    const card = takeCard();
+    // Draw card from deck.
+    const card = drawCard();
     // Add points to the current player's score and display it on scoreboard.
     const playerScore = accumulatePoints( card, 0 );
     // Display the card for the player on the board.
@@ -183,7 +183,7 @@ const game = (() => {
 
     // Every time the player draws a card, check for computer's turn to start.
     if ( playerScore >= 21 ) {
-      btnTakeCard.disabled = true;
+      btndrawCard.disabled = true;
       btnStopPlaying.disabled = true;
       computersTurn(playerScore);
     }
@@ -192,7 +192,7 @@ const game = (() => {
 
   btnStopPlaying.addEventListener( "click", () => {
 
-    btnTakeCard.disabled = true;
+    btndrawCard.disabled = true;
     btnStopPlaying.disabled = true;
     computersTurn(scores[0]);
 
