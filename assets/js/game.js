@@ -155,16 +155,16 @@ const game = (() => {
   // Function that checks for a winner.
   const whoWins = () => {
 
-    const [ minimumPoints, computerScore ] = playersScores;
+    const [ playerScore, computerScore ] = playersScores;
 
     setTimeout(() => {
-      computerScore === minimumPoints
-        ? alert("Tie!")
-        : minimumPoints > 21
-        ? alert("Computer wins!")
-        : computerScore > minimumPoints && computerScore <= 21
-        ? alert("Computer wins!")
-        : alert("You win!");
+      (computerScore === playerScore) ?
+        alert( 'Tie!' ) :
+      ( playerScore > 21 ) ?
+        alert( 'Computer wins!' ) :
+      ( computerScore > 21 ) ?
+        alert( 'You win!' ) :
+      alert( 'Computer wins!' );
     }, 100);
   };
 
