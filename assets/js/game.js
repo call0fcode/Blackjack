@@ -141,7 +141,7 @@ const game = (() => {
       // Draw card from deck.
       const card = drawCard();
       // Sum points to computer's score and display them on scoreboard.
-      computerScore += accumulatePoints( card, playersScores.length - 1);
+      computerScore = accumulatePoints( card, playersScores.length - 1 );
       // Display the card for the computer on the board.
       displayCard( card, playersCardsDivs.length - 1 );
 
