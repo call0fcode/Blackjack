@@ -8,7 +8,7 @@ const game = (() => {
 
   let deck    = [];
 
-  // Creates an array with all cards of a deck (52).
+  // Creates an array with all cards possible of a deck (52).
   const cards = (() => {
     
     let cards          = [];
@@ -34,18 +34,19 @@ const game = (() => {
   let playersScores  = new Array( numOfPlayers );
 
 
+
   /*
    * HTML REFERENCES
    *******************/
 
   // Buttons
-  const btnNewGame     = document.querySelector("#btnNewGame"),
-        btnTakeCard    = document.querySelector("#btnTakeCard"),
-        btnStopPlaying = document.querySelector("#btnStopPlaying");
+  const btnNewGame     = document.querySelector( '#btnNewGame' ),
+        btnTakeCard    = document.querySelector( '#btnTakeCard' ),
+        btnStopPlaying = document.querySelector( '#btnStopPlaying' );
 
   // Scores and cards containers
-  const scores             = document.querySelectorAll("small"),
-        playersCardsDivs   = document.querySelectorAll(".cards-container");
+  const scores             = document.querySelectorAll( 'small' ),
+        playersCardsDivs   = document.querySelectorAll( '.cards-container' );
 
 
 
@@ -63,11 +64,10 @@ const game = (() => {
     });
   })();
 
-  // Function that initializes the game.
-  const startGame = ( players = 2 ) => {
+  // Function that initializes / resets the game.
+  const startGame = () => {
     
     deck = shuffleDeck( cards );
-    console.log('Mazo barajado: ', deck);
     
     // Reset scores to zero for each player (internal scores and HTML).
     for ( let i = 0; i < numOfPlayers; i++ ) {
@@ -76,11 +76,12 @@ const game = (() => {
       playersCardsDivs[i].innerHTML = '';
     }
 
+    // Enable game buttons.
     btnTakeCard.disabled    = false;
     btnStopPlaying.disabled = false;
   };
 
-  // Function that shuffles all cards, the whole deck.
+  // Function that shuffles all cards.
   const shuffleDeck = ( cards ) => {
 
     return _.shuffle( cards );
@@ -89,8 +90,8 @@ const game = (() => {
   // Function to take a card from the deck.
   const takeCard = () => {
 
-    if (deck.length === 0) {
-      throw "There are no cards on the deck";
+    if ( deck.length === 0 ) {
+      throw 'There are no cards on the deck';
     }
 
     return deck.pop();
@@ -99,21 +100,54 @@ const game = (() => {
   // Function checking the card's value.
   const cardValue = ( card ) => {
     
-    const value = card.substring(0, card.length - 1);
+    const value = card.substring( 0, card.length - 1 );
 
-    return ( isNaN( value ) ) ?
-            ( value === "A" ) ? 11 : 10
-            : parseInt(value);
+    return ( isNaN( value ) )
+           ? ( value === "A" )
+             ? 11
+             : 10
+           : parseInt( value );
+  };
+
+  // Turns: 0 = 1st player, 1 = 2nd player, ... and last = computer.
+  const accumulatePoints = ( card, turn ) => {
+
+    // Sum points for the current player.
+    playersScores[turn] += cardValue( card );
+    // Display score on scoreboard for the current player.
+    scores[turn].innerText = playersScores[turn];
+    
+    // Return updated score for current player.
+    return playersScores[turn];
   };
 
   // Function displaying the cards for each player on the board.
   const displayCard = ( card, turn ) => {
 
-    // Create card and append it to HTML.
-    const cardImg = document.createElement("img");
+    // Create card and append it to the HTML.
+    const cardImg = document.createElement('img');
     cardImg.src = `./assets/cards/${card}.png`;
     cardImg.classList.add("blackjack-card");
     playersCardsDivs[turn].append(cardImg);
+  };
+
+  // Computer's turn
+  const computersTurn = ( minimumPoints ) => {
+
+    let computerScore = 0;
+
+    do {
+
+      // Take card from deck.
+      const card = takeCard();
+      // Sum points to computer's score and display them on scoreboard.
+      computerScore += accumulatePoints( card, playersScores.length - 1);
+      // Display the card for the computer on the board.
+      displayCard( card, playersCardsDivs.length - 1 );
+
+    } while (computerScore < minimumPoints && minimumPoints <= 21);
+
+    whoWins();
   };
 
   // Function that checks for a winner.
@@ -132,44 +166,13 @@ const game = (() => {
     }, 100);
   };
 
-  // Turn: 0 = 1st player and last = computer.
-  const accumulatePoints = ( card, turn ) => {
-
-    // Sum points for the current player.
-    playersScores[turn] += cardValue(card);
-    // Display score on scoreboard for the current player.
-    scores[turn].innerText = playersScores[turn];
-    
-    // Return updated score for current player.
-    return playersScores[turn];
-  };
-
-  // Computer's turn
-  const computersTurn = ( minimumPoints ) => {
-
-    let computerScore = 0;
-
-    do {
-
-      // Take card from deck.
-      const card = takeCard();
-      // Sum points to computer's score and display them on scoreboard.
-      computerScore = accumulatePoints( card, playersScores.length - 1);
-      // Display the card for the computer on the board.
-      displayCard( card, playersCardsDivs.length - 1 );
-
-    } while (computerScore < minimumPoints && minimumPoints <= 21);
-
-    whoWins();
-  };
-
 
 
   /*
    * EVENTS
    **********/
 
-  btnTakeCard.addEventListener("click", () => {
+  btnTakeCard.addEventListener( "click", () => {
 
     // Take card from deck.
     const card = takeCard();
@@ -187,7 +190,7 @@ const game = (() => {
 
   });
 
-  btnStopPlaying.addEventListener("click", () => {
+  btnStopPlaying.addEventListener( "click", () => {
 
     btnTakeCard.disabled = true;
     btnStopPlaying.disabled = true;
@@ -195,7 +198,7 @@ const game = (() => {
 
   });
 
-  btnNewGame.addEventListener("click", () => {
+  btnNewGame.addEventListener( "click", () => {
 
     startGame();
 
