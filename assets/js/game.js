@@ -196,8 +196,7 @@ const game = (() => {
 
     btndrawCard.disabled = true;
     btnStopPlaying.disabled = true;
-    computersTurn(scores[0]);
-
+    computersTurn( playersScores[0] );
   });
 
   btnNewGame.addEventListener( "click", () => {
