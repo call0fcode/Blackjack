@@ -187,9 +187,8 @@ const game = (() => {
     if ( playerScore >= 21 ) {
       btndrawCard.disabled = true;
       btnStopPlaying.disabled = true;
-      computersTurn(playerScore);
+      computersTurn( playerScore );
     }
-
   });
 
   btnStopPlaying.addEventListener( "click", () => {
@@ -202,7 +201,6 @@ const game = (() => {
   btnNewGame.addEventListener( "click", () => {
 
     startGame();
-
   });
 
   // The "startGame" function is public and can be called as "newGame", which is
