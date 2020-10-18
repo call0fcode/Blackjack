@@ -183,9 +183,6 @@ const game = (() => {
       btnTakeCard.disabled = true;
       btnStopPlaying.disabled = true;
       computersTurn(playerScore);
-    } else if (playerScore === 21) {
-      computersTurn(playerScore);
-      btnStopPlaying.disabled = true;
     }
 
   });
